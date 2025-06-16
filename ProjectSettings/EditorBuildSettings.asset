@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/01_BootstrapAndFrontend/FrontendHUD.unity
     guid: 06ff0d515097f4e60973d2ca8d13eb39
+  - enabled: 1
+    path: Assets/EngineSupport/BasicExample.unity
+    guid: e2dc353e1135b4fd9b2febb2bf0f9e09
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

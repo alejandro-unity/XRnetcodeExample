@@ -82,7 +82,7 @@ public partial struct GoInGameServerSystem : ISystem
     {
         // Get the prefab to instantiate
         var prefab = SystemAPI.GetSingleton<PlayerSpawner>().Player;
-
+        
         // Ge the name of the prefab being instantiated
         state.EntityManager.GetName(prefab, out var prefabName);
         var worldName = new FixedString32Bytes(state.WorldUnmanaged.Name);

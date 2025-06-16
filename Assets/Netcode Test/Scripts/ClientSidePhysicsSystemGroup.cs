@@ -2,6 +2,7 @@ using Unity.Entities;
 using Unity.Physics.Systems;
 using UnityEngine;
 
+/*
 [WorldSystemFilter(WorldSystemFilterFlags.ClientSimulation)]
 [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
 public partial class ClientSidePhysicsSystemGroup : CustomPhysicsSystemGroup
@@ -18,3 +19,6 @@ public partial class ClientSidePhysicsSystemGroup : CustomPhysicsSystemGroup
         
     }
 }
+
+
+*/

@@ -88,3 +88,4 @@ crashlytics-build.properties
 Assets/.DS_Store
 Assets/EngineSupport/.DS_Store
 /.idea
+*.vsconfig

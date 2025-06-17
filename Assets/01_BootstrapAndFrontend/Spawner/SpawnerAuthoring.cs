@@ -3,10 +3,6 @@ using UnityEngine;
 
 namespace Samples.HelloNetcode
 {
-    public struct Spawner : IComponentData
-    {
-        public Entity Player;
-    }
 
     [DisallowMultipleComponent]
     public class SpawnerAuthoring : MonoBehaviour
@@ -20,7 +16,7 @@ namespace Samples.HelloNetcode
                 var entity = GetEntity(TransformUsageFlags.None);
                 AddComponent(entity, new Spawner 
                 {
-                    Player = GetEntity(authoring.Player, TransformUsageFlags.Dynamic)
+                    Player = GetEntity(authoring.Player, TransformUsageFlags.Dynamic),
                 });
             }
         }

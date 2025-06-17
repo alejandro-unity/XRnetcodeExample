@@ -1,6 +1,8 @@
 using Unity.Burst;
 using Unity.Entities;
+using Unity.Mathematics;
 using Unity.NetCode;
+using Unity.Physics;
 using Unity.Transforms;
 using UnityEngine;
 
@@ -48,6 +50,14 @@ namespace Samples.HelloNetcode
                 .WithNone<PlayerSpawned>()) 
             {
                 var player = state.EntityManager.Instantiate(prefab);
+                
+                {
+                    var mass = state.EntityManager.GetComponentData<PhysicsMass>(player);
+                    mass.InverseInertia = float3.zero;
+                    state.EntityManager.SetComponentData(player, mass);
+                }
+                
+
                 Debug.Log($"[SpawnPlayerSystem][{state.WorldUnmanaged.Name}] Spawning player CC '{player.ToFixedString()}' (from prefab '{prefabName}') for {networkId.ValueRO.ToFixedString()}.");
 
                 // Offset the spawn position so that ghosts don't spawn on top of each other.

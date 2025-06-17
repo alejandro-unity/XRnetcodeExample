@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace Samples.HelloNetcode
 {
+
     // Sample keypress inputs every frame and add them to the input component for
     // processing later.
     [WorldSystemFilter(WorldSystemFilterFlags.Default | WorldSystemFilterFlags.ClientSimulation)]
@@ -57,14 +58,15 @@ namespace Samples.HelloNetcode
 
         public void OnUpdate(ref SystemState state)
         {
-
-            foreach (var (input, velocity) in SystemAPI.Query<RefRO<PlayerInput>, RefRW<PhysicsVelocity>>().WithAll<Simulate>())
+            foreach (var (input, velocity, parameters) in SystemAPI.Query<RefRO<PlayerInput>, RefRW<PhysicsVelocity>, RefRO<PlayerParameters>>().WithAll<Simulate>())
             {
-                float3 forward = new float3(0, 0, 1);
-                velocity.ValueRW.Linear += forward * input.ValueRO.Horizontal;
+                float3 movement = (math.right() * input.ValueRO.Horizontal + math.forward() * input.ValueRO.Vertical) * parameters.ValueRO.MoveSpeed;
+                velocity.ValueRW.Linear.xz = movement.xz;
+
+                if (input.ValueRO.Jump.IsSet) 
+                    velocity.ValueRW.Linear.y = parameters.ValueRO.JumpImpulse;
+
             }
-
-
         }
     }
 }

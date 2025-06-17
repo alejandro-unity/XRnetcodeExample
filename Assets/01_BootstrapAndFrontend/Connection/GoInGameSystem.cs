@@ -3,7 +3,7 @@ using Unity.Entities;
 using Unity.NetCode;
 
 namespace Samples.HelloNetcode
-{ // Place any established network connection in-game so ghost snapshot sync can start
+{ 
     [WorldSystemFilter(WorldSystemFilterFlags.ClientSimulation | WorldSystemFilterFlags.ServerSimulation | WorldSystemFilterFlags.ThinClientSimulation)]
     partial struct ConnectInGameSystem : ISystem
     {

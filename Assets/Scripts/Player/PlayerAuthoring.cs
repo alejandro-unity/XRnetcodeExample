@@ -3,6 +3,8 @@ using UnityEngine;
 
 public struct Player : IComponentData
 {
+    public Entity Controller;
+    public Entity Item;
 }
 
 [DisallowMultipleComponent]

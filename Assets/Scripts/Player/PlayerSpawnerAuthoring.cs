@@ -15,10 +15,11 @@ public class PlayerSpawnerAuthoring : MonoBehaviour
     {
         public override void Bake(PlayerSpawnerAuthoring authoring)
         {
-            PlayerSpawner component = default(PlayerSpawner);
-            component.Player = GetEntity(authoring.PlayerPrefab, TransformUsageFlags.Dynamic);
-            var entity = GetEntity(TransformUsageFlags.Dynamic);
-            AddComponent(entity, component);
+            var entity = GetEntity(TransformUsageFlags.None);
+            AddComponent(entity, new PlayerSpawner 
+            {
+                Player = GetEntity(authoring.PlayerPrefab, TransformUsageFlags.Dynamic)
+            });
         }
     }
 }

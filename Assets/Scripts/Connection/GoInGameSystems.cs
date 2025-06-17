@@ -1,8 +1,9 @@
-using UnityEngine;
+using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.NetCode;
-using Unity.Burst;
+using UnityEngine.InputSystem.XR;
+using UnityEngine.Rendering;
 
 /// <summary>
 /// This allows sending RPCs between a standalone build and the Editor for testing purposes in the event that, when you finish this example,
@@ -69,6 +70,7 @@ public partial struct GoInGameServerSystem : ISystem
     public void OnCreate(ref SystemState state)
     {
         state.RequireForUpdate<PlayerSpawner>();
+        state.RequireForUpdate<GameConfigSpawner>();
 
         var builder = new EntityQueryBuilder(Allocator.Temp)
             .WithAll<GoInGameRequest>()
@@ -102,10 +104,21 @@ public partial struct GoInGameServerSystem : ISystem
             // Instantiate the prefab
             var player = commandBuffer.Instantiate(prefab);
             // Associate the instantiated prefab with the connected client's assigned NetworkId
-            commandBuffer.SetComponent(player, new GhostOwner { NetworkId = networkId.Value});
+            commandBuffer.SetComponent(player, new GhostOwner { NetworkId = networkId.Value });
 
             // Add the player to the linked entity group so it is destroyed automatically on disconnect
-            commandBuffer.AppendToBuffer(reqSrc.ValueRO.SourceConnection, new LinkedEntityGroup{Value = player});
+            commandBuffer.AppendToBuffer(reqSrc.ValueRO.SourceConnection, new LinkedEntityGroup { Value = player });
+
+            // additional entities per player
+            var prefabController = SystemAPI.GetSingleton<GameConfigSpawner>().Controller;
+            var prefabItem = SystemAPI.GetSingleton<GameConfigSpawner>().Item;
+            var controller = commandBuffer.Instantiate(prefabController);
+            var item = commandBuffer.Instantiate(prefabItem);
+
+            commandBuffer.SetComponent(player, new Player { Controller = controller , Item = item });
+            commandBuffer.AppendToBuffer(reqSrc.ValueRO.SourceConnection, new LinkedEntityGroup { Value = controller });
+            commandBuffer.AppendToBuffer(reqSrc.ValueRO.SourceConnection, new LinkedEntityGroup { Value = item });
+
             commandBuffer.DestroyEntity(reqEntity);
         }
         commandBuffer.Playback(state.EntityManager);

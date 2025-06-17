@@ -15,9 +15,10 @@ GameObject:
   - component: {fileID: -7424623961358404031}
   - component: {fileID: 1058395392113403271}
   - component: {fileID: -6223478885852214249}
-  - component: {fileID: -5460225495972149860}
+  - component: {fileID: 2940467175090328571}
+  - component: {fileID: 6456865767814485239}
   m_Layer: 0
-  m_Name: Controller
+  m_Name: Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +33,7 @@ Transform:
   m_GameObject: {fileID: 3769409326962228191}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalPosition: {x: 1, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -313,7 +314,7 @@ MonoBehaviour:
   SupportedGhostModes: 3
   OptimizationMode: 0
   Importance: 1
-  prefabId: 5cd56e11295004678aeaffb91133e40b
+  prefabId: 8383696f6574b41c5b70970d05f1e6c1
   HasOwner: 1
   SupportAutoCommandTarget: 1
   TrackInterpolationDelay: 0
@@ -321,7 +322,7 @@ MonoBehaviour:
   UsePreSerialization: 0
   RollbackPredictedSpawnedGhostState: 0
   RollbackPredictionOnStructuralChanges: 1
---- !u!114 &-5460225495972149860
+--- !u!114 &2940467175090328571
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -330,6 +331,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 3769409326962228191}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd665a5c7d5a6409cbe62774720631f6, type: 3}
+  m_Script: {fileID: 11500000, guid: 1aeb01e0cef5444ad9470dabdd3c1be8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6456865767814485239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3769409326962228191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d79d98418b67aa44db932451943018a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConnectedBody: {fileID: 6206614999788734633, guid: 5cd56e11295004678aeaffb91133e40b, type: 3}
+  EnableCollision: 0
+  MaxImpulse:
+    x: Infinity
+    y: Infinity
+    z: Infinity
+  EditPivots: 0
+  AutoSetConnected: 1
+  PositionLocal:
+    x: 0
+    y: 0
+    z: 0
+  PositionInConnectedEntity:
+    x: -1.0707312
+    y: -0.36975837
+    z: 3.7265456
+  MinDistance: 0
+  MaxDistance: 0

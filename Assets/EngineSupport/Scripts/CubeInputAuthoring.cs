@@ -1,8 +1,10 @@
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
+using Unity.Mathematics;
 using Unity.NetCode;
 using Unity.NetCode.Samples.Common;
+using Unity.Transforms;
 using UnityEngine;
 
 public struct CubeInput : IInputComponentData
@@ -49,5 +51,6 @@ public partial struct SampleCubeInput : ISystem
             if (Input.GetKey("up") || TouchInput.GetKey(TouchInput.KeyCode.Up))
                 playerInput.ValueRW.Vertical += 1;
         }
+        
     }
 }

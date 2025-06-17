@@ -1,4 +1,6 @@
 using Unity.Entities;
+using Unity.Mathematics;
+using Unity.NetCode;
 using UnityEngine;
 
 class ESPlayer : MonoBehaviour
@@ -13,9 +15,14 @@ class ESPlayerBaker : Baker<ESPlayer>
         var entity = GetEntity(TransformUsageFlags.Dynamic);
         var tag = default(PlayerTag);
         AddComponent(entity, tag);
+        
+        var armData = default(ArmData);
+        AddComponent(entity, armData);
     }
 }
 
 public struct PlayerTag : IComponentData
 {
 }
+
+

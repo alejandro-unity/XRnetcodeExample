@@ -2,6 +2,7 @@ using Unity.Entities;
 using Unity.NetCode;
 using UnityEngine;
 using Unity.Mathematics;
+using Unity.Transforms;
 
 [GhostComponent(PrefabType = GhostPrefabType.All, OwnerSendType = SendToOwnerType.SendToOwner)]
 public struct PlayerInput : IInputComponentData
@@ -43,5 +44,8 @@ public partial struct SamplePlayerInput : ISystem
             playerInput.ValueRW.CharacterPosition = ccMove.transform.position;
             playerInput.ValueRW.ControllerPosition = ccMove._controller.transform.position;
         }
+        
+       
+        
     }
 }

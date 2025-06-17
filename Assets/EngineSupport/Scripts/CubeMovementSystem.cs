@@ -34,10 +34,10 @@ public partial struct CubeMovementSystem : ISystem
         //state.Dependency = moveJob.ScheduleParallel(state.Dependency);
         // added by alejo
         state.Dependency = moveJob.Schedule(state.Dependency);
-        state.CompleteDependency();
+        //state.CompleteDependency();
         // move the Controller relative to the Player
 
-        
+        /*
         foreach (var (linkedEntityGroup, transform ) in SystemAPI.Query<DynamicBuffer<LinkedEntityGroup>,
                      RefRO<LocalTransform>>().WithAll<GhostOwnerIsLocal>())
         {
@@ -51,6 +51,9 @@ public partial struct CubeMovementSystem : ISystem
                 }
             }
         }
+        
+        */
+        
     }
 
     [BurstCompile]

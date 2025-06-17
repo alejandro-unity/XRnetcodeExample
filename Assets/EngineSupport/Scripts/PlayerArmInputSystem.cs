@@ -20,6 +20,11 @@ public struct ArmData : IComponentData
 // TO Check UpdateInGroup(typeof(GhostPredictionSystemGroup)) 
 public partial struct PlayerArmInputSystem : ISystem
 {
+    public void OnCreate(ref SystemState state)
+    {
+        state.Enabled = false; 
+    }
+
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {

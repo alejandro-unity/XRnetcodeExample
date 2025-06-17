@@ -31,28 +31,7 @@ public partial struct CubeMovementSystem : ISystem
             fixedCubeSpeed = SystemAPI.Time.DeltaTime * 4
         };
 
-        //state.Dependency = moveJob.ScheduleParallel(state.Dependency);
-        // added by alejo
         state.Dependency = moveJob.Schedule(state.Dependency);
-        //state.CompleteDependency();
-        // move the Controller relative to the Player
-
-        /*
-        foreach (var (linkedEntityGroup, transform ) in SystemAPI.Query<DynamicBuffer<LinkedEntityGroup>,
-                     RefRO<LocalTransform>>().WithAll<GhostOwnerIsLocal>())
-        {
-            foreach (var entity in linkedEntityGroup)
-            {
-                if (SystemAPI.HasComponent<ControllerTag>(entity.Value))
-                {
-                    var localTransform = SystemAPI.GetComponent<LocalTransform>(entity.Value);
-                    localTransform.Position = transform.ValueRO.Position + new float3(1, 0, 0); // Reset position to origin
-                    SystemAPI.SetComponent(entity.Value, localTransform);
-                }
-            }
-        }
-        
-        */
         
     }
 

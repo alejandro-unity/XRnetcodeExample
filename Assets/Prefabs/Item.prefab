@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: -6223478885852214249}
   - component: {fileID: 2940467175090328571}
   - component: {fileID: 6456865767814485239}
+  - component: {fileID: 5816851608403215682}
   m_Layer: 0
   m_Name: Item
   m_TagString: Untagged
@@ -316,7 +317,7 @@ MonoBehaviour:
   Importance: 1
   prefabId: 8383696f6574b41c5b70970d05f1e6c1
   HasOwner: 1
-  SupportAutoCommandTarget: 1
+  SupportAutoCommandTarget: 0
   TrackInterpolationDelay: 0
   GhostGroup: 0
   UsePreSerialization: 0
@@ -359,8 +360,21 @@ MonoBehaviour:
     y: 0
     z: 0
   PositionInConnectedEntity:
-    x: -1.0707312
-    y: -0.36975837
-    z: 3.7265456
+    x: 1
+    y: 0
+    z: 0
   MinDistance: 0
   MaxDistance: 0
+--- !u!114 &5816851608403215682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3769409326962228191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfdaa6c06fe64fbda2b16e07a4ee0b25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ComponentOverrides: []

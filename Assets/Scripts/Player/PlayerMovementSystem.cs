@@ -15,7 +15,6 @@ public partial struct PlayerMovementSystem : ISystem
         var builder = new EntityQueryBuilder(Allocator.Temp)
             .WithAll<Simulate>()
             .WithAll<PlayerInput>()
-
             .WithAllRW<LocalTransform>();
 
         var query = state.GetEntityQuery(builder);

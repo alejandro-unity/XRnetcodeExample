@@ -1,8 +1,16 @@
 using Unity.Entities;
 using UnityEngine;
 
+public struct GameConfigSpawner : IComponentData
+{
+    public Entity Controller;
+    public Entity Item;
+    public Entity Player;
+}
+
 public class GameSetupAuthoring : MonoBehaviour
 {
+    public GameObject Player;
     public GameObject Controller;
     public GameObject Item;
     
@@ -14,17 +22,12 @@ public class GameSetupAuthoring : MonoBehaviour
             GameConfigSpawner gameConfig = new GameConfigSpawner
             {
                 Controller = GetEntity(authoring.Controller, TransformUsageFlags.Dynamic),
-                Item = GetEntity(authoring.Item, TransformUsageFlags.Dynamic)
+                Item = GetEntity(authoring.Item, TransformUsageFlags.Dynamic),
+                Player = GetEntity(authoring.Player, TransformUsageFlags.Dynamic),
             };
             
             var GameConfigEntity = GetEntity(TransformUsageFlags.None);
             AddComponent(GameConfigEntity, gameConfig);
         }
     }
-}
-
-public struct GameConfigSpawner : IComponentData
-{
-    public Entity Controller;
-    public Entity Item;
 }

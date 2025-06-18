@@ -25,12 +25,12 @@ public class PlayerInputAuthoring : MonoBehaviour
 }
 
 [UpdateInGroup(typeof(GhostInputSystemGroup))]
-public partial struct SampleCubeInput : ISystem
+public partial struct PlayerInputSystem : ISystem
 {
     public void OnCreate(ref SystemState state)
     {
         state.RequireForUpdate<NetworkStreamInGame>();
-        state.RequireForUpdate<PlayerSpawner>();
+        state.RequireForUpdate<GameConfigSpawner>();
     }
 
     public void OnUpdate(ref SystemState state)

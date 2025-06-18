@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 4594068046113847816}
   - component: {fileID: -7365658156810177961}
   - component: {fileID: 1652433281724473047}
-  - component: {fileID: -488689256081144814}
+  - component: {fileID: -8042873791798312606}
   m_Layer: 0
   m_Name: SPlayer
   m_TagString: Untagged
@@ -321,7 +321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccea9ea98e38942e0b0938c27ed1903e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MotionType: 1
+  m_MotionType: 0
   m_Smoothing: 0
   m_Mass: 1
   m_LinearDamping: 0.01
@@ -360,7 +360,7 @@ MonoBehaviour:
     Tag05: 0
     Tag06: 0
     Tag07: 0
---- !u!114 &-488689256081144814
+--- !u!114 &-8042873791798312606
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -372,9 +372,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfdaa6c06fe64fbda2b16e07a4ee0b25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ComponentOverrides:
-  - FullTypeName: ArmData
-    EntityIndex: 0
-    PrefabType: -1
-    SendTypeOptimization: 3
-    VariantHash: 0
+  ComponentOverrides: []

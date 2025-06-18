@@ -1,7 +1,9 @@
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
+using Unity.Mathematics;
 using Unity.NetCode;
+using Unity.Physics;
 using UnityEngine.InputSystem.XR;
 using UnityEngine.Rendering;
 
@@ -36,7 +38,7 @@ public partial struct GoInGameClientSystem : ISystem
     public void OnCreate(ref SystemState state)
     {
         // Run only on entities with a PlayerSpawner component data
-        state.RequireForUpdate<PlayerSpawner>();
+        state.RequireForUpdate<GameConfigSpawner>();
 
         var builder = new EntityQueryBuilder(Allocator.Temp)
             .WithAll<NetworkId>()
@@ -69,7 +71,6 @@ public partial struct GoInGameServerSystem : ISystem
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
-        state.RequireForUpdate<PlayerSpawner>();
         state.RequireForUpdate<GameConfigSpawner>();
 
         var builder = new EntityQueryBuilder(Allocator.Temp)
@@ -83,7 +84,7 @@ public partial struct GoInGameServerSystem : ISystem
     public void OnUpdate(ref SystemState state)
     {
         // Get the prefab to instantiate
-        var prefab = SystemAPI.GetSingleton<PlayerSpawner>().Player;
+        var prefab = SystemAPI.GetSingleton<GameConfigSpawner>().Player;
         
         // Ge the name of the prefab being instantiated
         state.EntityManager.GetName(prefab, out var prefabName);
@@ -99,10 +100,11 @@ public partial struct GoInGameServerSystem : ISystem
             var networkId = networkIdFromEntity[reqSrc.ValueRO.SourceConnection];
 
             // Log information about the connection request that includes the client's assigned NetworkId and the name of the prefab spawned.
-            UnityEngine.Debug.Log($"'{worldName}' setting connection '{networkId.Value}' to in game, spawning a Ghost '{prefabName}' for them!");
+            UnityEngine.Debug.Log($"<color=green>'{worldName}'</color> setting connection '{networkId.Value}' to in game, spawning a Ghost '{prefabName}' for them!");
 
             // Instantiate the prefab
             var player = commandBuffer.Instantiate(prefab);
+
             // Associate the instantiated prefab with the connected client's assigned NetworkId
             commandBuffer.SetComponent(player, new GhostOwner { NetworkId = networkId.Value });
 

@@ -1,20 +1,22 @@
 using Unity.Entities;
 using UnityEngine;
 
-public struct PlayerTag : IComponentData
+namespace Unity.Samples.EngineSupport
 {
-}
-
-class ESPlayer : MonoBehaviour
-{
-    class ESPlayerBaker : Baker<ESPlayer>
+    class ESPlayer : MonoBehaviour
     {
-        public override void Bake(ESPlayer authoring)
+        class ESPlayerBaker : Baker<ESPlayer>
         {
-            // add the tag component to the entity
-            var entity = GetEntity(TransformUsageFlags.Dynamic);
-            var tag = default(PlayerTag);
-            AddComponent(entity, tag);
+            public override void Bake(ESPlayer authoring)
+            {
+                // add the tag component to the entity
+                var entity = GetEntity(TransformUsageFlags.Dynamic);
+                AddComponent<PlayerTag>(entity);
+            }
         }
+    }
+
+    public struct PlayerTag : IComponentData
+    {
     }
 }

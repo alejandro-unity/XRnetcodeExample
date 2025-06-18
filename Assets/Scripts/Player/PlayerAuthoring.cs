@@ -1,21 +1,24 @@
 using Unity.Entities;
 using UnityEngine;
 
-public struct Player : IComponentData
+namespace Unity.Samples.EngineSupport
 {
-    public Entity Controller;
-    public Entity Item;
-}
-
-[DisallowMultipleComponent]
-public class PlayerAuthoring : MonoBehaviour
-{
-    class Baker : Baker<PlayerAuthoring>
+    [DisallowMultipleComponent]
+    public class PlayerAuthoring : MonoBehaviour
     {
-        public override void Bake(PlayerAuthoring authoring)
+        class Baker : Baker<PlayerAuthoring>
         {
-            var entity = GetEntity(TransformUsageFlags.Dynamic);
-            AddComponent<Player>(entity);
+            public override void Bake(PlayerAuthoring authoring)
+            {
+                var entity = GetEntity(TransformUsageFlags.Dynamic);
+                AddComponent<Player>(entity);
+            }
         }
     }
+    public struct Player : IComponentData
+    {
+        public Entity Controller;
+        public Entity Item;
+    }
+
 }

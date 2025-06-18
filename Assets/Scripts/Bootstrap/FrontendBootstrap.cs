@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
 using Unity.NetCode;
-using UnityEngine;
-using UnityEngine.SceneManagement;
 
-namespace Samples.HelloNetcode
+namespace Unity.Samples.EngineSupport
 {
     [UnityEngine.Scripting.Preserve]
     public class FrontendBootstrap : ClientServerBootstrap

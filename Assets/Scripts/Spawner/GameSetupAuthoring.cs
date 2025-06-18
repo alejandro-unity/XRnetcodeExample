@@ -1,33 +1,36 @@
 using Unity.Entities;
 using UnityEngine;
 
-public struct GameConfigSpawner : IComponentData
+namespace Unity.Samples.EngineSupport
 {
-    public Entity Controller;
-    public Entity Item;
-    public Entity Player;
-}
-
-public class GameSetupAuthoring : MonoBehaviour
-{
-    public GameObject Player;
-    public GameObject Controller;
-    public GameObject Item;
-    
-    
-    class Baker : Baker<GameSetupAuthoring>
+    public struct GameConfigSpawner : IComponentData
     {
-        public override void Bake(GameSetupAuthoring authoring)
+        public Entity Controller;
+        public Entity Item;
+        public Entity Player;
+    }
+
+    public class GameSetupAuthoring : MonoBehaviour
+    {
+        public GameObject Player;
+        public GameObject Controller;
+        public GameObject Item;
+
+
+        class Baker : Baker<GameSetupAuthoring>
         {
-            GameConfigSpawner gameConfig = new GameConfigSpawner
+            public override void Bake(GameSetupAuthoring authoring)
             {
-                Controller = GetEntity(authoring.Controller, TransformUsageFlags.Dynamic),
-                Item = GetEntity(authoring.Item, TransformUsageFlags.Dynamic),
-                Player = GetEntity(authoring.Player, TransformUsageFlags.Dynamic),
-            };
-            
-            var GameConfigEntity = GetEntity(TransformUsageFlags.None);
-            AddComponent(GameConfigEntity, gameConfig);
+                GameConfigSpawner gameConfig = new GameConfigSpawner
+                {
+                    Controller = GetEntity(authoring.Controller, TransformUsageFlags.Dynamic),
+                    Item = GetEntity(authoring.Item, TransformUsageFlags.Dynamic),
+                    Player = GetEntity(authoring.Player, TransformUsageFlags.Dynamic),
+                };
+
+                var GameConfigEntity = GetEntity(TransformUsageFlags.None);
+                AddComponent(GameConfigEntity, gameConfig);
+            }
         }
     }
 }

@@ -1,23 +1,26 @@
 using Unity.Entities;
 using UnityEngine;
 
-class TagItemBaker : MonoBehaviour
+namespace Unity.Samples.EngineSupport
 {
-    
-}
-
-class TagHandBakerBaker : Baker<TagItemBaker>
-{
-    public override void Bake(TagItemBaker authoring)
+    class TagItemBaker : MonoBehaviour
     {
-        
-        // add the tag component to the entity
-        var entity = GetEntity(TransformUsageFlags.Dynamic);
-        var tag = default(ItemTag); 
-        AddComponent(entity, tag);
-    }
-}
+        class TagHandBakerBaker : Baker<TagItemBaker>
+        {
+            public override void Bake(TagItemBaker authoring)
+            {
 
-public struct ItemTag : IComponentData
-{
+                // add the tag component to the entity
+                var entity = GetEntity(TransformUsageFlags.Dynamic);
+                var tag = default(ItemTag);
+                AddComponent(entity, tag);
+            }
+        }
+
+    }
+
+
+    public struct ItemTag : IComponentData
+    {
+    }
 }

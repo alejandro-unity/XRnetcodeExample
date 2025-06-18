@@ -1,23 +1,24 @@
 using Unity.Entities;
 using UnityEngine;
 
-class ESController : MonoBehaviour
+namespace Unity.Samples.EngineSupport
 {
-    
-}
-
-class ESControllerBaker : Baker<ESController>
-{
-    public override void Bake(ESController authoring)
+    class ESController : MonoBehaviour
     {
-        
-        // add the tag component to the entity
-        var entity = GetEntity(TransformUsageFlags.Dynamic);
-        var tag = default(ControllerTag);
-        AddComponent(entity, tag);
-    }
-}
+        class ESControllerBaker : Baker<ESController>
+        {
+            public override void Bake(ESController authoring)
+            {
 
-public struct ControllerTag : IComponentData
-{
+                // add the tag component to the entity
+                var entity = GetEntity(TransformUsageFlags.Dynamic);
+                var tag = default(ControllerTag);
+                AddComponent(entity, tag);
+            }
+        }
+    }
+
+    public struct ControllerTag : IComponentData
+    {
+    }
 }

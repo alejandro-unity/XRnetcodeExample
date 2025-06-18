@@ -115,10 +115,13 @@ public partial struct GoInGameServerSystem : ISystem
             var controller = commandBuffer.Instantiate(prefabController);
             var item = commandBuffer.Instantiate(prefabItem);
 
-            commandBuffer.SetComponent(player, new Player { Controller = controller , Item = item });
+            commandBuffer.SetComponent(controller, new GhostOwner { NetworkId = networkId.Value });
+            commandBuffer.SetComponent(item, new GhostOwner { NetworkId = networkId.Value });
+
             commandBuffer.AppendToBuffer(reqSrc.ValueRO.SourceConnection, new LinkedEntityGroup { Value = controller });
             commandBuffer.AppendToBuffer(reqSrc.ValueRO.SourceConnection, new LinkedEntityGroup { Value = item });
 
+            commandBuffer.SetComponent(player, new Player { Controller = controller, Item = item });
             commandBuffer.DestroyEntity(reqEntity);
         }
         commandBuffer.Playback(state.EntityManager);

@@ -25,10 +25,11 @@ public partial struct PlayerMovementSystem : ISystem
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        var moveJob = new MoveCubeJob
+        var moveJob = new MovePlayerJob
         {
             tick = SystemAPI.GetSingleton<NetworkTime>().ServerTick,
-            fixedCubeSpeed = SystemAPI.Time.DeltaTime * 4
+            Speed = SystemAPI.Time.DeltaTime * 4,
+            TransformLookup = SystemAPI.GetComponentLookup<LocalTransform>(false)
         };
 
         state.Dependency = moveJob.Schedule(state.Dependency);
@@ -37,16 +38,25 @@ public partial struct PlayerMovementSystem : ISystem
 
     [BurstCompile]
     [WithAll(typeof(Simulate))]
-    partial struct MoveCubeJob : IJobEntity
-    {
-        public NetworkTick tick;
-        public float fixedCubeSpeed;
+    [WithAll(typeof(JointConnected))]
 
-        public void Execute(PlayerInput playerInput, ref LocalTransform trans)
+    partial struct MovePlayerJob : IJobEntity
+    {
+        public ComponentLookup<LocalTransform> TransformLookup;
+        public NetworkTick tick;
+        public float Speed;
+
+        public void Execute(Entity entity, in PlayerInput playerInput, in Player player)
         {
             var moveInput = new float2(playerInput.Horizontal, playerInput.Vertical);
-            moveInput = math.normalizesafe(moveInput) * fixedCubeSpeed;
-            trans.Position += new float3(moveInput.x, 0, moveInput.y);
+            moveInput = math.normalizesafe(moveInput) * Speed;
+            var transform = TransformLookup[entity];
+            transform.Position += new float3(moveInput.x, 0, moveInput.y);
+            TransformLookup[entity] = transform;
+
+            var controllerTransform = TransformLookup[player.Controller];
+            controllerTransform.Position = transform.Position + math.forward();
+            TransformLookup[player.Controller] = controllerTransform;
         }
     }
 }

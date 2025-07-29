@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
 using Unity.NetCode;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Samples.HelloNetcode
@@ -12,9 +8,16 @@ namespace Samples.HelloNetcode
     {
         public override bool Initialize(string defaultWorldName)
         {
-            AutoConnectPort = 7979;
-            // Create the appropriate worlds, which we can then load sub-scenes directly into:
-            CreateDefaultClientServerWorlds();
+            if (SceneManager.GetActiveScene().name.ToLower().Contains("multiplayer"))
+            {
+                AutoConnectPort = 7979;
+                CreateDefaultClientServerWorlds();
+            }
+            else 
+            {
+                AutoConnectPort = 0;
+                CreateLocalWorld(defaultWorldName);
+            }
 
             return true;
         }

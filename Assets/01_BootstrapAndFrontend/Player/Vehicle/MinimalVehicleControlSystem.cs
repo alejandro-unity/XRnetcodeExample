@@ -4,10 +4,11 @@ using UnityEngine.SceneManagement;
 
 namespace Unity.Vehicles.Samples
 {
-    [UpdateInGroup(typeof(GhostInputSystemGroup))]
-    [UpdateBefore(typeof(FixedStepSimulationSystemGroup))]
+    //[UpdateInGroup(typeof(GhostInputSystemGroup))]
+    [UpdateInGroup(typeof(PredictedSimulationSystemGroup), OrderFirst = true)]
+    [UpdateBefore(typeof(PredictedFixedStepSimulationSystemGroup))]
+    [UpdateAfter(typeof(CopyCommandBufferToInputSystemGroup))]
     [UpdateBefore(typeof(VehicleControlPredictionSystem))]
-    [WorldSystemFilter(WorldSystemFilterFlags.Default | WorldSystemFilterFlags.ClientSimulation)]
     public partial struct NetcodeMinimalVehicleControlSystem : ISystem
     {
         public void OnCreate(ref SystemState state) 

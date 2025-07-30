@@ -1,3 +1,4 @@
+using System;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.NetCode;
@@ -71,4 +72,16 @@ public struct WheelOnVehicle_GhostVariant
     public float3 StaticFrictionRefPosition;
     [GhostField(SendData = false)]
     public bool DisableStaticFrictionSingleFrame;
+}
+
+[Serializable]
+public struct VehicleControlInput : IInputComponentData
+{
+    public float RawSteeringInput;
+    public float RawThrottleInput;
+    public float RawBrakeInput;
+    public float HandbrakeInput;
+    public bool ShiftUpInput;
+    public bool ShiftDownInput;
+    public bool EngineStartStopInput;
 }

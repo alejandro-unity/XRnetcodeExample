@@ -1,3 +1,4 @@
+using Unity.Entities;
 using Unity.NetCode;
 using UnityEngine.SceneManagement;
 
@@ -11,7 +12,19 @@ namespace Samples.HelloNetcode
             if (SceneManager.GetActiveScene().name.ToLower().Contains("multiplayer"))
             {
                 AutoConnectPort = 7979;
-                CreateDefaultClientServerWorlds();
+                var requestedPlayType = RequestedPlayType;
+                World world = default;
+                if (requestedPlayType != PlayType.Client)
+                {
+                    world = CreateServerWorld("ServerWorld");
+                }
+
+                if (requestedPlayType != PlayType.Server)
+                {
+                    world = CreateClientWorld("ClientWorld");
+                }
+
+                World.DefaultGameObjectInjectionWorld = world;
             }
             else 
             {

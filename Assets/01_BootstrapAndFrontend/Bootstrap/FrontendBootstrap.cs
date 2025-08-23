@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
 using Unity.NetCode;
-using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Samples.HelloNetcode
 {

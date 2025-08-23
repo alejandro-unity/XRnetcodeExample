@@ -7,7 +7,6 @@ using UnityEngine;
 
 namespace Samples.HelloNetcode
 {
-
     // Sample keypress inputs every frame and add them to the input component for
     // processing later.
     [WorldSystemFilter(WorldSystemFilterFlags.Default | WorldSystemFilterFlags.ClientSimulation)]
@@ -23,26 +22,17 @@ namespace Samples.HelloNetcode
 
         protected override void OnUpdate()
         {
-            bool left = Input.GetKey(KeyCode.A);
-            bool right = Input.GetKey(KeyCode.D);
             bool down = Input.GetKey(KeyCode.S);
             bool up = Input.GetKey(KeyCode.W);
-            bool jump = Input.GetKeyDown(KeyCode.Space);
-
+            
             foreach (var inputData in SystemAPI.Query<RefRW<PlayerInput>>().WithAll<GhostOwnerIsLocal>()) 
             {
                 inputData.ValueRW = default;
 
-                if (jump)
-                    inputData.ValueRW.Jump.Set();
-                if (left)
-                    inputData.ValueRW.Horizontal -= 1;
-                if (right)
-                    inputData.ValueRW.Horizontal += 1;
-                if (down)
-                    inputData.ValueRW.Vertical -= 1;
                 if (up)
                     inputData.ValueRW.Vertical += 1;
+                if (down)
+                    inputData.ValueRW.Vertical -= 1;
             }
         }
     }
@@ -60,12 +50,8 @@ namespace Samples.HelloNetcode
         {
             foreach (var (input, velocity, parameters) in SystemAPI.Query<RefRO<PlayerInput>, RefRW<PhysicsVelocity>, RefRO<PlayerParameters>>().WithAll<Simulate>())
             {
-                float3 movement = (math.right() * input.ValueRO.Horizontal + math.forward() * input.ValueRO.Vertical) * parameters.ValueRO.MoveSpeed;
-                velocity.ValueRW.Linear.xz = movement.xz;
-
-                if (input.ValueRO.Jump.IsSet) 
-                    velocity.ValueRW.Linear.y = parameters.ValueRO.JumpImpulse;
-
+                float3 movement = (math.forward() * input.ValueRO.Vertical) * parameters.ValueRO.MoveSpeed;
+                velocity.ValueRW.Linear.z = movement.z;
             }
         }
     }

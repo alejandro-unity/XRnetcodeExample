@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace Samples.HelloNetcode
 {
-    public struct EnableGoInGame : IComponentData { }
 
     [DisallowMultipleComponent]
     public class EnableGoInGameAuthoring : MonoBehaviour

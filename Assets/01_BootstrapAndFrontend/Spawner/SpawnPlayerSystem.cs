@@ -4,25 +4,9 @@ using Unity.Mathematics;
 using Unity.NetCode;
 using Unity.Physics;
 using Unity.Transforms;
-using UnityEngine;
 
 namespace Samples.HelloNetcode
 {
-    /// <summary>
-    /// Flag component, denoting whether or not a Player Character Controller (CC) has been spawned
-    /// for a given connection.
-    /// </summary>
-    public struct PlayerSpawned : IComponentData { }
-
-    /// <summary>
-    ///     Convenience: This allows us to trivially fetch the connection entity associated with
-    ///     this player character controller entity.
-    /// </summary>
-    public struct ConnectionOwner : IComponentData
-    {
-        public Entity Entity;
-    }
-
     [WorldSystemFilter(WorldSystemFilterFlags.ServerSimulation)]
     public partial struct SpawnPlayerSystem : ISystem
     {
@@ -40,6 +24,8 @@ namespace Samples.HelloNetcode
         public void OnUpdate(ref SystemState state)
         {
             var prefab = SystemAPI.GetSingleton<Spawner>().Player;
+            var spawnPoints = SystemAPI.GetSingletonBuffer<SpawnPoint>();
+
             state.EntityManager.GetName(prefab, out var prefabName);
             if (prefabName.IsEmpty) prefabName = prefab.ToFixedString();
 
@@ -47,23 +33,25 @@ namespace Samples.HelloNetcode
 
             foreach (var (networkId, connectionEntity) in SystemAPI.Query<RefRO<NetworkId>>()
                 .WithEntityAccess()
-                .WithNone<PlayerSpawned>()) 
+                .WithNone<PlayerSpawned>())
             {
+
                 var player = state.EntityManager.Instantiate(prefab);
-                
+
                 {
                     var mass = state.EntityManager.GetComponentData<PhysicsMass>(player);
                     mass.InverseInertia = float3.zero;
                     state.EntityManager.SetComponentData(player, mass);
                 }
-                
 
-                Debug.Log($"[SpawnPlayerSystem][{state.WorldUnmanaged.Name}] Spawning player CC '{player.ToFixedString()}' (from prefab '{prefabName}') for {networkId.ValueRO.ToFixedString()}.");
+
+                UnityEngine.Debug.Log($"<color=green>[SpawnPlayerSystem][{state.WorldUnmanaged.Name}]</color> Spawning player CC '{player.ToFixedString()}' (from prefab '{prefabName}') for {networkId.ValueRO.ToFixedString()}.");
 
                 // Offset the spawn position so that ghosts don't spawn on top of each other.
                 // In a real game, you'd have set spawn locations/zones.
+                var spawnPoint = spawnPoints[networkId.ValueRO.Value % spawnPoints.Length];
                 var localTransform = state.EntityManager.GetComponentData<LocalTransform>(prefab);
-                localTransform.Position.x += networkId.ValueRO.Value * 2;
+                localTransform = LocalTransform.FromPositionRotationScale(spawnPoint.Position, spawnPoint.Rotation, localTransform.Scale);
                 state.EntityManager.SetComponentData(player, localTransform);
 
                 // The network ID owner must be set on the spawned ghost.

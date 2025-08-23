@@ -1,6 +1,6 @@
-using Unity.Collections;
-using Unity.Entities;
 using Unity.NetCode;
+using Unity.Entities;
+using Unity.Collections;
 
 namespace Samples.HelloNetcode
 { 

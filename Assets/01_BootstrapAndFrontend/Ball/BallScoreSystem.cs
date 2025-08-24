@@ -61,13 +61,14 @@ partial struct BallScoreSystem : ISystem
 
             if (isBallBehindAPlayer) 
             {
-                if (isBallBehind)
-                {
-                    ECB.DestroyEntity(index, BallEntity);
-                }
-                else
+                if (!isBallBehind && playerParameters.Score < 10)
                 {
                     playerParameters.Score++;
+                    if (playerParameters.Score < 10) 
+                    {
+                        ECB.DestroyEntity(index, BallEntity);
+                    }
+                    
                 }
             }
         }

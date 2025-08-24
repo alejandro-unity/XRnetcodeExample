@@ -1,0 +1,21 @@
+.score {
+    font-size: 50px;
+    -unity-font-definition: url("project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&guid=1709db550e83f21458d18f168fa65bca&type=3#NotInter-Regular");
+    -unity-font-style: bold;
+    color: rgb(255, 255, 255);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-top-left-radius: 1px;
+    border-top-right-radius: 1px;
+    border-bottom-right-radius: 1px;
+    border-bottom-left-radius: 1px;
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    -unity-text-outline-width: 0;
+    -unity-text-outline-color: rgb(0, 0, 0);
+    text-shadow: 4px 4px 0 rgb(0, 0, 0);
+}

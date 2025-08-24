@@ -7,5 +7,6 @@ namespace Samples.HelloNetcode
     {
         [GhostField] public int Score;
         public float MoveSpeed;
+        public UnityObjectRef<ScoreUI> ScoreUI;
     }
 }

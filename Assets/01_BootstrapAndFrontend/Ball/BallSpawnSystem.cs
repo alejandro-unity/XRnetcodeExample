@@ -19,6 +19,7 @@ namespace Samples.HelloNetcode
     {
         private EntityQuery m_PlayersQuery;
         private EntityQuery m_BallQuery;
+        private EntityQuery m_BallPending;
 
         // Prefab de la bola que se instanciará
         Entity m_BallPrefab;
@@ -32,6 +33,7 @@ namespace Samples.HelloNetcode
         {
             m_PlayersQuery = SystemAPI.QueryBuilder().WithAll<NetworkId>().WithAll<PlayerSpawned>().Build();
             m_BallQuery = SystemAPI.QueryBuilder().WithAll<Ball>().Build();
+            m_BallPending = SystemAPI.QueryBuilder().WithAll<BallPending>().Build();
             state.RequireForUpdate(m_PlayersQuery);
             state.RequireForUpdate<Spawner>();
 
@@ -53,20 +55,30 @@ namespace Samples.HelloNetcode
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
-            if (m_PlayersQuery.CalculateEntityCount() < 2 || m_BallQuery.CalculateEntityCount() > 0)
+            if (m_BallQuery.CalculateEntityCount() > 0)
+            {
+                state.EntityManager.DestroyEntity(m_BallPending);
+            }
+
+
+            if (m_PlayersQuery.CalculateEntityCount() < 2 || m_BallQuery.CalculateEntityCount() > 0 || !m_BallPending.IsEmpty)
             {
                 return;
             }
 
+            var ballSpawner = SystemAPI.GetSingleton<Spawner>();
+
             // Obtiene el prefab de la bola del singleton BallSpawner si aún no está asignado
             if (m_BallPrefab == Entity.Null)
             {
-                var ballSpawner = SystemAPI.GetSingleton<Spawner>();
                 m_BallPrefab = ballSpawner.Ball;
 
                 if (m_BallPrefab == Entity.Null)
                     return;
             }
+
+            var pending = state.EntityManager.CreateEntity();
+            state.EntityManager.AddComponent<BallPending>(pending);
 
             // Crea un EntityCommandBuffer para ejecutar comandos de forma segura en un Job
             var ecb = SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(state.WorldUnmanaged);
@@ -91,6 +103,8 @@ namespace Samples.HelloNetcode
                 ballPrefab = m_BallPrefab,
                 localTransformLookup = m_LocalTransformLookup,
                 fixedDeltaTime = fixedDeltaTime,
+                BallSpawnPoint = ballSpawner.BallPosition,
+                MapHeight = ballSpawner.MapSize.y,
             };
 
             // Programa el Job y establece la dependencia
@@ -102,6 +116,8 @@ namespace Samples.HelloNetcode
         {
             public EntityCommandBuffer ecb;
             public NativeReference<Random> random;
+            public float3 BallSpawnPoint;
+            public float MapHeight;
             public NetworkTick tick;
             public Entity ballPrefab;
             [ReadOnly] public ComponentLookup<LocalTransform> localTransformLookup;
@@ -112,7 +128,8 @@ namespace Samples.HelloNetcode
                 var rand = random.Value;
 
                 // Define la posición inicial fija. Ahora está en el plano XZ.
-                var position = new float3(0, 6, 0);
+                var position = BallSpawnPoint;
+                position.z = rand.NextFloat(-MapHeight/2, MapHeight/2);
 
                 // Genera un ángulo de rotación aleatorio para la dirección en el plano XZ.
                 // La rotación se aplica sobre el eje Y para girar en el plano XZ.
@@ -145,14 +162,7 @@ namespace Samples.HelloNetcode
 
                 // Establece el transform y el componente Ball en la nueva entidad.
                 ecb.SetComponent(newBall, trans);
-                ecb.SetComponent(newBall, new Ball
-                {
-                    InitialPosition = position,
-                    InitialVelocity = vel,
-                    InitialAngle = angle,
-                    SpawnTick = tick
-                });
-
+                
                 // Añade el componente de velocidad física para el movimiento.
                 // El 'Linear' es el vector de velocidad que calculaste.
                 // El 'Angular' es 0, ya que no se necesita rotación en este caso.

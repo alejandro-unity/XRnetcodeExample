@@ -180,6 +180,7 @@ MonoBehaviour:
   Player: {fileID: 3338112726321458731, guid: 307a321dd5f1d8f47977ccc3530b1ea1, type: 3}
   Ball: {fileID: 6774641401360980107, guid: 817dd78671c469e41ba8cf3529004e7e, type: 3}
   BallPosition: {fileID: 1370487906}
+  MapSize: {x: 140, y: 90}
   SpawnPoints:
   - {fileID: 834891636}
   - {fileID: 287905123}
@@ -348,13 +349,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 834891635}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.5, y: 0.5, z: 0.5, w: 0.5}
+  m_LocalRotation: {x: -0.5, y: -0.5, z: 0.5, w: 0.5}
   m_LocalPosition: {x: 70, y: 6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 90}
 --- !u!1 &1370487905
 GameObject:
   m_ObjectHideFlags: 0
@@ -490,7 +491,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -1.5, z: 0}
-  m_LocalScale: {x: 15, y: 10, z: 10}
+  m_LocalScale: {x: 15, y: 1, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

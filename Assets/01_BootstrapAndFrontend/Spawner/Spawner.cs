@@ -9,6 +9,7 @@ namespace Samples.HelloNetcode
         public Entity Ball;
         public Entity Player;
         public float3 BallPosition;
+        public float2 MapSize;
     }
 
     public struct SpawnPoint : IBufferElementData
@@ -34,9 +35,7 @@ namespace Samples.HelloNetcode
 
     public struct Ball : IComponentData
     {
-        [GhostField(Quantization = 100)] public float3 InitialPosition;
-        [GhostField(Quantization = 100)] public float3 InitialVelocity;
-        [GhostField(Quantization = 100)] public float InitialAngle;
-        [GhostField] public NetworkTick SpawnTick;
     }
+
+    public struct BallPending : IComponentData { }
 }

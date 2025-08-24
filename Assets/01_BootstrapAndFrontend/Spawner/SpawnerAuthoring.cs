@@ -1,4 +1,5 @@
 using Unity.Entities;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Samples.HelloNetcode
@@ -14,6 +15,8 @@ namespace Samples.HelloNetcode
         [SerializeField]
         private Transform BallPosition;
         [SerializeField]
+        private Vector2 MapSize = new Vector2(150,100);
+        [SerializeField]
         private Transform [] SpawnPoints;
 
         class Baker : Baker<SpawnerAuthoring>
@@ -26,6 +29,7 @@ namespace Samples.HelloNetcode
                     BallPosition = authoring.BallPosition.position,
                     Ball = GetEntity(authoring.Ball, TransformUsageFlags.Dynamic),
                     Player = GetEntity(authoring.Player, TransformUsageFlags.Dynamic),
+                    MapSize = authoring.MapSize,
                 });
 
                 var spawnPoints = AddBuffer<SpawnPoint>(entity);
@@ -34,6 +38,12 @@ namespace Samples.HelloNetcode
                     spawnPoints.Add(new SpawnPoint { Position = transform.position, Rotation = transform.rotation });
                 }
             }
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawCube(transform.position, new Vector3(MapSize.x, 1, MapSize.y));
         }
     }
 }
